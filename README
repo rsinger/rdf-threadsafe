@@ -1,0 +1,14 @@
+RDF/Threadsafe: An attempt to make RDF.rb work safely in JRuby Threads
+==============================
+
+RDF.rb makes extensive use of autoload, in fact it advertises that very fact.  This is great for almost everything you would want to use RDF.rb for, unless you happen to want to use it in a multithreaded JRuby environment (see: <http://jira.codehaus.org/browse/JRUBY-3194>).  RDF/Threadsafe is an attempt to undo autoload's mischief (at the expense of requiring all of RDF.rb to be loaded).
+
+Note, this should *only* matter for JRuby (and, possibly, Rubinius) and will be necessary until JRuby can get along with autoload (which, unfortunately, might be a while, if ever).  Ruby 1.9 now works with autoload.
+
+Changes from RDF.rb:
+
+* Overrides Method#autoload, which calls require for any autoload in the RDF module namespace (and defaults to regular autoload to anything outside).
+* Because of a problem with RDF::Util::Cache and frozen objects (namely the RDF Vocabulary object), there is a modified version of #define_finalizer! that adds exception handling.
+* All of the class methods in rdf.rb had to be included in threadsafe.rb because they are needed when the other files are required, but autoload fires before the methods are interpreted.  Because of this, RDF/Threadsafe will need to be pegged to specific versions of RDF.rb
+
+This should work for everything that falls under the RDF Module namespace (assuming there are no dependency errors based on the autoload order).
