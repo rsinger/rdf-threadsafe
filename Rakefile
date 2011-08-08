@@ -2,18 +2,16 @@
 #$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), 'lib')))
 require 'rake'
 
-require "spec/rake/spectask"
+require "rspec/core/rake_task"
 
 
 
 desc "Run all specs"
 
-Spec::Rake::SpecTask.new("specs") do |t|
-
-  t.spec_files = FileList["specs/*.rb"]
-
+RSpec::Core::RakeTask.new(:specs) do |spec|
+  spec.pattern = 'specs/*_spec.rb'
+  spec.rspec_opts = ['--backtrace']
 end
-
 
 desc "Build the rdf-threadsafe-#{File.read('VERSION').chomp}.gem file"
 task :build do

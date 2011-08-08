@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../lib/rdf/threadsafe'
 require 'rdf/ntriples'
 
 describe "Threadsafe RDF" do
+  
   it "should not throw NameErrors when Values are created in threads" do
     graphs = []
     lambda {

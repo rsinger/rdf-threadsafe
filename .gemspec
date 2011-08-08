@@ -24,6 +24,6 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 1.8.1'
   gem.requirements = []
-  gem.add_runtime_dependency 'rdf', '= 0.3.1'
+  gem.add_runtime_dependency 'rdf', '= 0.3.3'
   gem.post_install_message = nil
 end
